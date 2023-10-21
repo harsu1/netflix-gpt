@@ -19,6 +19,8 @@
 - BugFix: if the user is not logged in Redirect /browse to Login Page and vice-versa
 - Unsubscribed tothe onAuthstatechanged callback
 - Register tmdb APi 
+
+
  # Features
  - Login/SignUp
    - Sign in/ Sign up form 
