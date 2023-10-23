@@ -93,9 +93,9 @@ const Login = () => {
     setIsSignInForm(!isSignInForm);
   };
   return (
-    <div>
+    <div>  
       <Header />
-      <div className="absolute ">
+      <div className=" fixed">
         <img
           src= {BG_URL}
           alt="logo"
