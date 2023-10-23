@@ -3,22 +3,20 @@ import { API_OPTIONS } from "../utils/constant";
 import { addUpcomingMovies } from "../utils/movieSlice";
 import { useEffect } from "react";
 
-const useUpComingMovies=()=>{
-    const dispatch = useDispatch();
-    const   UpcomingMovies=useSelector((store)=>store.movies.UpcomingMovies)
+const useUpComingMovies = () => {
+  const dispatch = useDispatch();
+  const UpcomingMovies = useSelector((store) => store.movies.UpcomingMovies);
   const getUpComingMovies = async () => {
     const data = await fetch(
       "https://api.themoviedb.org/3/movie/upcoming?&page=1",
       API_OPTIONS
     );
     const json = await data.json();
-    
-    
+
     dispatch(addUpcomingMovies(json.results));
   };
   useEffect(() => {
-   !UpcomingMovies &&  getUpComingMovies();
+    !UpcomingMovies && getUpComingMovies();
   }, []);
-
-}
+};
 export default useUpComingMovies;
