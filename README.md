@@ -21,6 +21,7 @@
 - Register tmdb APi 
 
 
+
  # Features
  - Login/SignUp
    - Sign in/ Sign up form 
