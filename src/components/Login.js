@@ -1,17 +1,19 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Header from "./Header";
 import { checkValidData } from "../utils/validate";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../utils/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { GoogleAuthProvider, createUserWithEmailAndPassword} from "firebase/auth";
+import { auth, provider } from "../utils/firebase";
+import { signInWithEmailAndPassword,signInWithPopup  } from "firebase/auth";
 import { updateProfile } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import{FcGoogle} from "react-icons/fa"
 import { BG_URL, USER_AVATAR } from "../utils/constant";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, seterrorMessage] = useState(null);
+   
   const dispatch = useDispatch();
 
   const name = useRef(null);
@@ -38,8 +40,7 @@ const Login = () => {
           const user = userCredential.user;
           updateProfile(user, {
             displayName: name.current.value,
-            photoURL:
-              USER_AVATAR,
+            photoURL: USER_AVATAR,
           })
             .then(() => {
               // Profile updated!
@@ -52,7 +53,6 @@ const Login = () => {
                   photoURL: photoURL,
                 })
               );
-              
             })
             .catch((error) => {
               // An error occurred
@@ -78,7 +78,7 @@ const Login = () => {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          
+
           // ...
         })
         .catch((error) => {
@@ -88,19 +88,38 @@ const Login = () => {
         });
     }
   };
+  const handleClick=()=>{
+    signInWithPopup(auth, provider)
+  .then((result) => {
+    // This gives you a Google Access Token. You can use it to access the Google API.
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;
+    // The signed-in user info.
+    const user = result.user;
+    // IdP data available using getAdditionalUserInfo(result)
+    // ...
+  }).catch((error) => {
+    // Handle Errors here.
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // The email of the user's account used.
+    const email = error.customData.email;
+    // The AuthCredential type that was used.
+    const credential = GoogleAuthProvider.credentialFromError(error);
+    // ...
+  });
+    
+  }
+ 
 
   const toggleSignInForm = () => {
     setIsSignInForm(!isSignInForm);
   };
   return (
-    <div>  
+    <div>
       <Header />
       <div className=" absolute">
-        <img
-        className="  object-cover"
-          src= {BG_URL}
-          alt="logo"
-        />
+        <img className="  object-cover" src={BG_URL} alt="logo" />
       </div>
       <form
         onSubmit={(e) => e.preventDefault()}
@@ -132,11 +151,19 @@ const Login = () => {
         />
         <p className="text-red-500 font-bold text-md py-2">{errorMessage}</p>
         <button
-          className="p-4 my-6 bg-red-700 w-full rounded-lg"
+          className="p-4 my-2 bg-red-700 w-full rounded-lg"
           onClick={handleButtonClick}
         >
           {isSignInForm ? " Sign In" : "Sign up"}
         </button>
+
+        <button 
+        className="p-4 my-6 bg-white text-black w-full rounded-lg"
+        onClick={handleClick}
+        >
+          {isSignInForm ? "  Sign In with Google" : "Sign up with Google"}
+        </button>
+
         <p className="py-4 cursor-pointer" onClick={toggleSignInForm}>
           {isSignInForm
             ? "New to Netflix? Sign Up Now"
