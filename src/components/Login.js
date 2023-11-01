@@ -7,7 +7,7 @@ import { signInWithEmailAndPassword,signInWithPopup  } from "firebase/auth";
 import { updateProfile } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
-import{FcGoogle} from "react-icons/fa"
+import{FcGoogle} from "react-icons/fc"
 import { BG_URL, USER_AVATAR } from "../utils/constant";
 
 const Login = () => {
@@ -160,7 +160,7 @@ const Login = () => {
         <button 
         className="p-4 my-6 bg-white text-black w-full rounded-lg"
         onClick={handleClick}
-        >
+        ><FcGoogle className="absolute  justify-between mt-2px w-16 h-4 "/>
           {isSignInForm ? "  Sign In with Google" : "Sign up with Google"}
         </button>
 
