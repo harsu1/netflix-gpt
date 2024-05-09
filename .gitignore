@@ -10,8 +10,10 @@
 
 # production
 /build
-
-# misc
+ 
+git rm env.local --cached
+git rm env.staging --cached
+git commit -m "Stopped tracking env.local, and env.staging"
 .env
 .DS_Store
 .env.local
